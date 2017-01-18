@@ -1,11 +1,16 @@
 'use strict'
 
 var koa = require('koa');
+var Router = require('koa-router');
 
 var app = new koa();
+var router = new Router();
 
-app.use(ctx => {
+router.get("/", function(ctx, next) {
     ctx.body = "hello world";
 });
+
+app.use(router.routes())
+    .use(router.allowedMethods());
 
 module.exports = app;
