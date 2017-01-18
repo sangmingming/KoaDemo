@@ -1,0 +1,29 @@
+{
+  "name": "koa-demo",
+  "version": "1.0.0",
+  "description": "a koa demo on leancloud",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sangmingming/KoaDemo.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "sangmingming",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sangmingming/KoaDemo/issues"
+  },
+  "homepage": "https://github.com/sangmingming/KoaDemo#readme",
+  "dependencies": {
+    "koa": "^2.0.0",
+    "leanengine": "^1.2.2"
+  },
+    "engines": {
+        "node":"4.x"
+    }
+}
