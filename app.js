@@ -10,6 +10,8 @@ router.get("/", function(ctx, next) {
     ctx.body = "hello world";
 });
 
+require("./cloud");
+
 app.use(router.routes())
     .use(router.allowedMethods());
 
