@@ -14,7 +14,7 @@ router.get("/", function(ctx, next) {
 
 require("./cloud");
 
-app.use(AV.koa);
+app.use(AV.koa());
 app.use(router.routes())
     .use(router.allowedMethods());
 module.exports = app;
