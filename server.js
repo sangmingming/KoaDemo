@@ -9,7 +9,6 @@ AV.init({
 });
 
 var app = require('./app');
-app.use(AV.koa);
 
 var PORT = parseInt(process.env.LEANCLOUD_APP_PORT || process.env.PORT || 3000);
 
