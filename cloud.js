@@ -12,4 +12,4 @@ AV.Cloud.beforeSave('Review', function(request, response) {
     }));
 });
 
-module.exports = AV.Cloud;
+module.exports = cloud;
