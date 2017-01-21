@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/sangmingming/KoaDemo#readme",
   "dependencies": {
+    "cheerio": "^0.22.0",
     "koa": "^2.0.0",
     "koa-router": "^7.0.1",
     "leanengine": "^1.2.2"
