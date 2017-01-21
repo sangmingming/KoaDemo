@@ -1,5 +1,5 @@
 var AV = require('leanengine');
-var http = require('https');
+var http = require('http');
 var cheerio = require('cheerio');
 
 AV.Cloud.define('hello', function(req, res){
@@ -7,43 +7,77 @@ AV.Cloud.define('hello', function(req, res){
     res.success('Hello world in cloud function');
 });
 
-AV.Cloud.define('doubanMusic', function(req, res) {
-    http.get("https://music.douban.com/chart", function(response) {
+
+var baseUrl = "http://www.meizitu.com/a/";
+AV.Cloud.define("meiziSpider", function(request, response) {
+    var query = new AV.Query("meiziIndex");
+    query.equalTo("name", "meizitucom");
+    query.first().then(function(obj) {
+       var sInd = obj.get("lastIndex"); 
+        var index = parseInt(sInd);
+        index += 1;
+        requestMeizitu(index);
+
+    }, function(error) {
+        requestMeizitu(1);
+    });
+});
+
+function requestMeizitu(index) {
+    var mUrl = baseUrl + index + ".html";
+    http.get(mUrl, function(res) {
+
         var html = "";
         response.on('data', function(data) {
             html += data;
         });
 
         response.on('end', function() {
-            callback(html);
+            parsehtml(index, html);
+            var query = new AV.Query("meiziIndex");
+            query.equalTo("name", "meizitucom");
+            query.first().then(function(obj) {
+                var index = parseInt(obj.get("lastIndex"));
+                index += 1;
+                obj.set("lastIndex", inde);
+                obj.save();
+                index += 1;
+                requestMeizitu(index);
+
+            }, function(error) {
+                var obj = new MeiziIndex();
+                obj.set("name", "meizitucom");
+                obj.set("lastIndex", 1);
+                obj.save();
+                requestMeizitu(2);
+            });
         });
     });
-} );
-
-var DoubanMusic = AV.Object.extend("DoubanMusic");
-
-function callback(html) {
-    var $ = cheerio.load(html);
-    var result = [];
-
-    $("ul.col5 li.clearfix").each(function(index, element) {
-        var url = $(element).find("a.face").attr("href");
-        result.push('url');
-        var doubanMusic = new DoubanMusic();
-        doubanMusic.save({
-            "icon": url
-        }).then(function(object) {
-            console.log("success");
-        });
-    
-    })
 }
 
-AV.Cloud.beforeSave('Review', function(request, response) {
-    response.error(JSON.stringify({
-        code: 123,
-        message: '自定义错误信息'
-    }));
-});
+function parsehtml(oid, htmlContent) {
+    var $ = cheerio.load(htmlContent);
+    var mzObj = new Meizitu();
+    var titleName = $("div.metaRight h2 a").text();
+    mzObj.set("title", titleName);
+    var tags = $("div.metaRight p").text();
+    tags = tags.replace("Tags:", "");
+    var tagArray = tags.split(" , ");
+    mzObj.set("tags", tagArray);
+    var imageLinks = [];
+    mzObj.set("mzId", oid);
+    $("div.postConttent p img").each(function(index, element) {
+        var imgUrl = $(element).attr("src");
+        imageLinks.push(imgUrl);
+    });
+    mzObj.set("imgs", imageLinks);
+    var otherText = $("div.postContent p").text();
+    mzObj.set("text", otherText);
+    mzObj.save();
+}
+
+var DoubanMusic = AV.Object.extend("DoubanMusic");
+var Meizitu = AV.Object.extend("meizitu");
+var MeiziIndex = AV.Object.extend("meiziIndex");
 
 module.exports = AV.Cloud;
