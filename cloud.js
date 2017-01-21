@@ -16,6 +16,7 @@ AV.Cloud.define("meiziSpider", function(request, response) {
        var sInd = obj.get("lastIndex"); 
         var index = parseInt(sInd);
         index += 1;
+        console.log("index:" + index);
         requestMeizitu(index);
 
     }, function(error) {
@@ -33,6 +34,7 @@ function requestMeizitu(index) {
         });
 
         response.on('end', function() {
+            console.log("html:" + html);
             parsehtml(index, html);
             var query = new AV.Query("meiziIndex");
             query.equalTo("name", "meizitucom");
@@ -41,15 +43,12 @@ function requestMeizitu(index) {
                 index += 1;
                 obj.set("lastIndex", inde);
                 obj.save();
-                index += 1;
-                requestMeizitu(index);
 
             }, function(error) {
                 var obj = new MeiziIndex();
                 obj.set("name", "meizitucom");
                 obj.set("lastIndex", 1);
                 obj.save();
-                requestMeizitu(2);
             });
         });
     });
