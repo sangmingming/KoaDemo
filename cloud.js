@@ -1,5 +1,5 @@
 var AV = require('leanengine');
-var http = require('http');
+var http = require('https');
 var cheerio = require('cheerio');
 
 AV.Cloud.define('hello', function(req, res){
