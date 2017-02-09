@@ -37,7 +37,7 @@ AV.Cloud.define("todayGank", function(request, response) {
     http.get(url, function(res) {
         if (res.statusCode !== 200) {
             sendGank({"text": "发生了错误"});
-            return;
+            return response.success();
         }
         res.setEncoding("utf8");
         var rawData = '';
@@ -48,7 +48,7 @@ AV.Cloud.define("todayGank", function(request, response) {
             parseData = JSON.parse(rawData);
             if (parseData.category.length == 0) {
                 sendGank({"text":":joy: 今天休息没干货"});
-                return;
+                return response.success();
             }
             datas = parseData.results;
             var text = "今日干货 " +year + "年" + month + "月" + day + "日";
@@ -65,6 +65,7 @@ AV.Cloud.define("todayGank", function(request, response) {
 
             } 
             sendGank({"text": text, "attachments": arr});
+            return response.success();
         });
 
     });
