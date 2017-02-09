@@ -12,7 +12,7 @@ router.get("/", function(ctx, next) {
     ctx.body = "hello world";
 });
 
-//require("./cloud");
+require("./cloud");
 
 app.use(AV.koa());
 app.use(router.routes())
