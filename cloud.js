@@ -4,7 +4,6 @@ var cheerio = require('cheerio');
 var https = require("https");
 
 function sendGank(content) {
-    data.channel="王勇学Android";
     var data = JSON.stringify(content);
     var options = {
         hostname: 'hook.bearychat.com',
