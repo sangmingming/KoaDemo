@@ -4,6 +4,7 @@ var cheerio = require('cheerio');
 var https = require("https");
 
 function sendGank(content) {
+    data.channel="王勇学Android";
     var data = JSON.stringify(content);
     var options = {
         hostname: 'hook.bearychat.com',
@@ -15,7 +16,8 @@ function sendGank(content) {
             'Content-Length': Buffer.byteLength(data)
         }
     };
-    var req = http.request(options, function(res){
+    console.log("content:" + data);
+    var req = https.request(options, function(res){
         console.log("STATUS" + res.statusCode);
     });
     req.write(data);
