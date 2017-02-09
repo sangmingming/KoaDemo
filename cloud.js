@@ -35,7 +35,7 @@ AV.Cloud.define("todayGank", function(request, response) {
         var day = date.getDate();
         url = "http://gank.io/api/day/" +year+ "/" + month + "/" + day;
     http.get(url, function(res) {
-        if (res.statusCode !=== 200) {
+        if (res.statusCode !== 200) {
             sendGank({"text": "发生了错误"});
             return;
         }
