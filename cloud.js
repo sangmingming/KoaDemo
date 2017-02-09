@@ -56,8 +56,8 @@ AV.Cloud.define("todayGank", function(request, response) {
             for(key in datas) {
                 if (key != "休息视频" && key != "福利") {
                     attachmentItem = {'title': key, 'text': '', 'color':"#409fff"};
-                    itemData = datas[key];
-                    for(items itemData) {
+                    itemData  = datas[key];
+                    for(items in itemData) {
                         attachmentItem.text = attachmentItem.text + itemData[items].desc + " By:" + itemData[items].who + "\n" + itemData[items].url + "\n";
                     }
                     arr.push(attachmentItem);
