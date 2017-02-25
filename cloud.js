@@ -90,7 +90,7 @@ AV.Cloud.define("meiziSpider", function(request, response) {
     });
 });
 
-function requestMeizitu(index, res) {
+function requestMeizitu(index, r) {
     var mUrl = baseUrl + index + ".html";
     http.get(mUrl, function(res) {
 
@@ -109,14 +109,14 @@ function requestMeizitu(index, res) {
                 index += 1;
                 obj.set("lastIndex", inde);
                 obj.save();
-                res.success();
+                r.success();
 
             }, function(error) {
                 var obj = new MeiziIndex();
                 obj.set("name", "meizitucom");
                 obj.set("lastIndex", 1);
                 obj.save();
-                res.success();
+                r.success();
             });
         });
     });
