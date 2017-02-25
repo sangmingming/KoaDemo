@@ -74,23 +74,23 @@ AV.Cloud.define("todayGank", function(request, response) {
 
 
 
-//var baseUrl = "http://www.meizitu.com/a/";
-//AV.Cloud.define("meiziSpider", function(request, response) {
-//    var query = new AV.Query("meiziIndex");
-//    query.equalTo("name", "meizitucom");
-//    query.first().then(function(obj) {
-//       var sInd = obj.get("lastIndex"); 
-//        var index = parseInt(sInd);
-//        index += 1;
-//        console.log("index:" + index);
-//        requestMeizitu(index);
-//
-//    }, function(error) {
-//        requestMeizitu(1);
-//    });
-//});
+var baseUrl = "http://www.meizitu.com/a/";
+AV.Cloud.define("meiziSpider", function(request, response) {
+    var query = new AV.Query("meiziIndex");
+    query.equalTo("name", "meizitucom");
+    query.first().then(function(obj) {
+        var sInd = obj.get("lastIndex"); 
+        var index = parseInt(sInd);
+        index += 1;
+        console.log("index:" + index);
+        requestMeizitu(index, response);
 
-function requestMeizitu(index) {
+    }, function(error) {
+        requestMeizitu(1, response);
+    });
+});
+
+function requestMeizitu(index, res) {
     var mUrl = baseUrl + index + ".html";
     http.get(mUrl, function(res) {
 
@@ -109,12 +109,14 @@ function requestMeizitu(index) {
                 index += 1;
                 obj.set("lastIndex", inde);
                 obj.save();
+                res.success();
 
             }, function(error) {
                 var obj = new MeiziIndex();
                 obj.set("name", "meizitucom");
                 obj.set("lastIndex", 1);
                 obj.save();
+                res.success();
             });
         });
     });
