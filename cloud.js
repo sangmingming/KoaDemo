@@ -78,6 +78,7 @@ var baseUrl = "http://www.meizitu.com/a/";
 AV.Cloud.define("meiziSpider", function(request, response) {
     var query = new AV.Query("meiziIndex");
     query.equalTo("name", "meizitucom");
+    console.log("start MeiziSpider");
     query.first().then(function(obj) {
         var sInd = obj.get("lastIndex"); 
         var index = parseInt(sInd);
